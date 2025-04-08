@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <head>
+    <title>Описание товара</title>
+</head>
+<body>
+    <h1 style="text-align: center">{{ item_name }}</h1>
+    <p style="text-align: center">{{ description }}</p>
+    <a class="btn btn-success " href="/buy" style="text-align: center">{{ price }} руб.</a>
+</body>
+{% endblock %}

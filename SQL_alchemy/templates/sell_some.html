@@ -16,6 +16,10 @@
             {{ form.seller_name.label }}<br>
             {{ form.seller_name() }}<br>
         </p>
+        <p style="text-align: center">
+            {{ form.price.label }}<br>
+            {{ form.price() }}<br>
+        </p>
         <p style="text-align: center">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         <div>{{ message }}</div>
     </form>

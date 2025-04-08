@@ -10,26 +10,26 @@ blueprint = flask.Blueprint(
 )
 
 
-@blueprint.route('/api/jobs/')
+@blueprint.route('/api/items/')
 def get_jobs():
     db_sess = db_session.create_session()
     jobs = db_sess.query(Jobs).all()
     return flask.jsonify(
         {
-            'jobs':
+            'items':
                 [item.to_dict() for item in jobs]
         }
     )
 
 
-@blueprint.route('/api/jobs/<int:jobs_id>', methods=['GET'])
-def get_one_jobs(jobs_id):
+@blueprint.route('/api/items/<int:items_id>', methods=['GET'])
+def get_one_jobs(items_id):
     db_sess = db_session.create_session()
-    jobs = db_sess.query(Jobs).get(jobs_id)
-    if not jobs:
+    items = db_sess.query(Jobs).get(items_id)
+    if not items:
         return flask.make_response(flask.jsonify({'error': 'Not found'}), 404)
     return flask.jsonify(
         {
-            'news': jobs.to_dict()
+            'items': items.to_dict()
         }
     )

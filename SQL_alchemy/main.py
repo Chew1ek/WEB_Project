@@ -10,6 +10,8 @@ from data.job_form_model import ItemForm
 from data.register_form import RegisterForm
 from data import jobs_api
 from data import user_resources
+import requests
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -18,9 +20,22 @@ api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-@app.route('/catalog/<item_name>')
-def item_desc(item_name):
-    return item_name
+@app.route('/basket')               # ЗАГАТОВКА НА КОРЗИНУ *СДЕЛАТЬ ТАБЛИЧКУ С ТОВАРАМИ
+def basket():
+    return render_template('basket.html')
+
+
+@app.route('/catalog/<int:item_id>')
+def item_desc(item_id):
+    response = requests.get(f'http://127.0.0.1:8080/api/items/{item_id}')
+
+    if response.status_code != 200:
+        return render_template('base.html', message="Товар не найден"), 404
+    data = response.json()
+    item_name = data['items']['item_name']
+    description = data['items']['description']
+    price = data['items']['price']
+    return render_template('item_desc.html', item_name=item_name, description=description, price=price)
 
 
 @login_manager.user_loader
@@ -95,6 +110,7 @@ def seller():
         item.description = form.description.data
         item.start_date = datetime.now()
         item.item_name = form.item_name.data
+        item.price = form.price.data
         db_sess.add(item)
         db_sess.commit()
         return redirect("/")

@@ -11,4 +11,5 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
     seller_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     item_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     start_date = sqlalchemy.Column(sqlalchemy.DateTime, nullable=True)

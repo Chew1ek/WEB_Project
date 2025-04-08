@@ -23,6 +23,7 @@
         <tr>
           <th scope="col">id</th>
           <th scope="col">Предмет</th>
+            <th scope="col">Цена</th>
            <th scope="col">Продавец</th>
           <th scope="col">Дата начала</th>
         </tr>
@@ -31,7 +32,8 @@
         {% for item in jobs%}
             <tr>
                   <td>{{item.id}}</td>
-                <td><a>{{item.item_name}}</a></td>
+                <td><a href="catalog/{{ item.id }}">{{ item.item_name }}</a></td>
+                <td>{{item.price}} руб.</td>
                 <td>{{item.seller_name}}</td>
                   <td>{{item.start_date}}</td>
             </tr>
