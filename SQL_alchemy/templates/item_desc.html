@@ -2,11 +2,27 @@
 
 {% block content %}
     <head>
-    <title>Описание товара</title>
-</head>
-<body>
-    <h1 style="text-align: center">{{ item_name }}</h1>
-    <p style="text-align: center">{{ description }}</p>
-    <a class="btn btn-success " href="/buy" style="text-align: center">{{ price }} руб.</a>
-</body>
+        <title>{{ item_name }}</title>
+    </head>
+    <body>
+        <h1 style="text-align: center">{{ item_name }}</h1>
+         {% if image_path %}
+            <div style="text-align: center; margin: 20px 0">
+                <img
+                    src="static/{{ image_path }}"
+                    alt="{{ image_path }}"
+                    style="max-width: 500px; border-radius: 8px"
+                >
+            </div>
+        {% endif %}
+        <p style="text-align: center">{{ description }}</p>
+        <div style="text-align: center">
+            <form action="{{ url_for('buy') }}" method="POST">
+                <button class="btn btn-success">Купить</button>
+            </form>
+            <form action="{{ url_for('add_to_basket', item_id=item_id) }}" method="POST">
+                <button class="btn btn-success">В корзину</button>
+            </form>
+        </div>
+    </body>
 {% endblock %}

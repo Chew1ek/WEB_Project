@@ -1,4 +1,4 @@
-import sqlalchemy
+from sqlalchemy import *
 from sqlalchemy_serializer import SerializerMixin
 from .db_session import SqlAlchemyBase
 
@@ -6,10 +6,10 @@ from .db_session import SqlAlchemyBase
 
 class Jobs(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'jobs'
-    id = sqlalchemy.Column(sqlalchemy.Integer,
-                           primary_key=True, autoincrement=True)
-    seller_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    item_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    start_date = sqlalchemy.Column(sqlalchemy.DateTime, nullable=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    seller_name = Column(String)
+    description = Column(String)
+    start_date = Column(DateTime)
+    item_name = Column(String)
+    price = Column(Integer)
+    image_path = Column(String)

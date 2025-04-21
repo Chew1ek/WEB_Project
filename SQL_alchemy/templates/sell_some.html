@@ -2,25 +2,43 @@
 
 {% block content %}
     <h1 style="text-align: center">Выставить на продажу</h1>
-    <form action="" method="post">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
-        <p style="text-align: center">
-            {{ form.item_name.label }}<br>
-            {{ form.item_name() }}<br>
-        </p>
-        <p style="text-align: center">
-            {{ form.description.label }}<br>
-            {{ form.description() }}<br>
-        </p>
-        <p style="text-align: center">
-            {{ form.seller_name.label }}<br>
-            {{ form.seller_name() }}<br>
-        </p>
-        <p style="text-align: center">
-            {{ form.price.label }}<br>
-            {{ form.price() }}<br>
-        </p>
-        <p style="text-align: center">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        <div>{{ message }}</div>
+
+        <div class="mb-3">
+            {{ form.image.label(class="form-label") }}
+            {{ form.image(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.item_name.label(class="form-label") }}
+            {{ form.item_name(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.seller_name.label(class="form-label") }}
+            {{ form.seller_name(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.price.label(class="form-label") }}
+            {{ form.price(class="form-control") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
     </form>
 {% endblock %}
