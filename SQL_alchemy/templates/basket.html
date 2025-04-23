@@ -24,29 +24,23 @@
                 <tr>
                     <th scope="col">Предмет</th>
                     <th scope="col">Цена</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in items %}
+                    <form action="{{ url_for('remove_from_basket', item_id=item['item_id']) }}" method="POST" style="text-align: right">
+                        <button class="btn btn-danger">Удалить всё</button>
+                    </form>
                     <tr>
                         <td>{{ item['item_name'] }}</td>
                         <td>{{ item['price'] }} руб.</td>
-                        <td>
-                            <form action="{{ url_for('buy') }}" method="POST">
-                                <button class="btn btn-success">Купить</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="{{ url_for('remove_from_basket', item_id=item['item_id']) }}" method="POST">
-                                <button class="btn btn-danger">Удалить</button>
-                            </form>
-                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <form action="{{ url_for('buy') }}" method="POST" style="text-align: right">
+            <button class="btn btn-success">Купить всё</button>
+        </form>
     {% else %}
         <p align="center"><a href="/catalog">Пусто &#129396;</a></p>
     {% endif %}

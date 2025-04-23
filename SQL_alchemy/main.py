@@ -15,6 +15,7 @@ from data import user_resources
 import requests
 import os
 from sqlalchemy import *
+import random
 
 
 
@@ -99,6 +100,14 @@ def buy():
     return redirect('/')
 
 
+@app.route('/catalog')
+def catalog():
+    db_sess = db_session.create_session()
+    jobs = db_sess.scalars(select(Jobs)).all()
+    db_sess.commit()
+    return render_template('items_list.html', jobs=jobs)
+
+
 @app.route('/catalog/<int:item_id>')
 def item_desc(item_id):
     response = requests.get(f'http://127.0.0.1:8080/api/items/{item_id}')
@@ -120,17 +129,11 @@ def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.get(User, user_id)
 
-@app.route('/catalog')
-def catalog():
-    db_sess = db_session.create_session()
-    jobs = db_sess.scalars(select(Jobs)).all()
-    db_sess.commit()
-    return render_template('items_list.html', jobs=jobs)
 
 @app.route('/')
 @app.route('/index')
 def index():
-    session.pop('basket', None)  # Удаляет корзину из сессии
+    session.pop('basket', None)
     session.modified = True
     return render_template('base.html')
 
@@ -159,6 +162,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+    random_number = random.randint(1000, 1000000)
     if form.validate_on_submit():
         user = User()
         db_sess = db_session.create_session()
@@ -179,7 +183,7 @@ def register():
                                           form=form,
                                           message="Уже есть")
         return redirect("/login")
-    return render_template('register_user.html', title='Регистрация', form=form)
+    return render_template('register_user.html', title='Регистрация', form=form, random_number=random_number)
 
 
 @app.route('/seller', methods=['GET', 'POST'])

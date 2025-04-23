@@ -5,12 +5,15 @@
         <title>{{ item_name }}</title>
     </head>
     <body>
+        <form action="{{ url_for('catalog') }}">
+            <button class="btn btn-danger">←</button>
+        </form>
         <h1 style="text-align: center">{{ item_name }}</h1>
          {% if image_path %}
             <div style="text-align: center; margin: 20px 0">
                 <img
-                    src="static/{{ image_path }}"
-                    alt="{{ image_path }}"
+                    src="static\{{ image_path }}"
+                    alt="static\{{ image_path }}"
                     style="max-width: 500px; border-radius: 8px"
                 >
             </div>

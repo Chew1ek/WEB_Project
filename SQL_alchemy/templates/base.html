@@ -41,13 +41,16 @@
     </ul>
   </div>
 </nav>
-
     {% if current_user.is_authenticated %}
         {% block content %}
         {% endblock %}
     {% else %}
     <div class="parent">
-      <div class="child">Войдите в систему</div>
+        <div class="child">
+            <a href="/login" style="text-align: center">
+                Войдите в систему
+            </a>
+        </div>
     </div>
     {% endif %}
     {% block login %}
