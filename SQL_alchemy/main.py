@@ -186,6 +186,12 @@ def register():
     return render_template('register_user.html', title='Регистрация', form=form, random_number=random_number)
 
 
+@app.route('/vasiliev')
+def vasiliev():
+    return render_template('vasiliev.html')
+
+
+
 @app.route('/seller', methods=['GET', 'POST'])
 def seller():
     form = ItemForm()

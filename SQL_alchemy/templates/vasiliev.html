@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <head>
+        <title>Секрет</title>
+    </head>
+    <body>
+        <div style="text-align: center">
+            <video width="985" height="554.1" controls>
+                <source src="{{ url_for('static', filename='video/vasiliev.mp4') }}" type="video/mp4">
+            </video>
+        </div>
+    </body>
+{% endblock %}
