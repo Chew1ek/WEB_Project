@@ -46,7 +46,7 @@ def allowed_file(filename, allowed_extensions):
 @app.route('/basket')
 def basket():
     basket_items = session.get('basket', [])
-    return render_template('basket.html', items=basket_items)
+    return render_template('basket.html', items=basket_items, bg=session.get('background', '#FFFFFF'))
 
 
 
@@ -58,13 +58,13 @@ def remove_from_basket(item_id):
             if item['item_id'] == item_id:
                 del basket[index]
                 session.modified = True
-    return render_template('basket.html')
+    return render_template('basket.html', bg=session.get('background', '#FFFFFF'))
 
 
 @app.route('/add_to_basket/<int:item_id>', methods=['POST'])
 def add_to_basket(item_id):
     if not current_user.is_authenticated:
-        return render_template('login.html')
+        return render_template('login.html', bg=session.get('background', '#FFFFFF'))
 
     response = requests.get(f'http://127.0.0.1:8080/api/items/{item_id}')
     if response.status_code != 200:
@@ -105,7 +105,7 @@ def catalog():
     db_sess = db_session.create_session()
     jobs = db_sess.scalars(select(Jobs)).all()
     db_sess.commit()
-    return render_template('items_list.html', jobs=jobs)
+    return render_template('items_list.html', jobs=jobs, bg=session.get('background', '#FFFFFF'))
 
 
 @app.route('/catalog/<int:item_id>')
@@ -135,7 +135,18 @@ def load_user(user_id):
 def index():
     session.pop('basket', None)
     session.modified = True
-    return render_template('base.html')
+    return render_template('base.html', bg=session.get('background', '#FFFFFF'))
+
+
+@app.route('/theme')
+def theme():
+    if 'background' not in session or session['background'] == '#FFFFFF':
+        session['background'] = '#808080'
+    else:
+        session['background'] = '#FFFFFF'
+
+    return render_template('base.html', bg=session['background'])
+
 
 @app.route('/logout')
 @login_required
@@ -157,7 +168,7 @@ def login():
         return render_template('login.html',
                                message="Неправильный логин или пароль",
                                form=form)
-    return render_template('login.html', title='Авторизация', form=form)
+    return render_template('login.html', title='Авторизация', form=form, bg=session.get('background', '#FFFFFF'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -183,12 +194,13 @@ def register():
                                           form=form,
                                           message="Уже есть")
         return redirect("/login")
-    return render_template('register_user.html', title='Регистрация', form=form, random_number=random_number)
+    return render_template('register_user.html', title='Регистрация', form=form, random_number=random_number,
+                           bg=session.get('background', '#FFFFFF'))
 
 
 @app.route('/vasiliev')
 def vasiliev():
-    return render_template('vasiliev.html')
+    return render_template('vasiliev.html', bg=session.get('background', '#FFFFFF'))
 
 
 
@@ -213,7 +225,7 @@ def seller():
         db_sess.commit()
 
         return redirect('/')
-    return render_template('sell_some.html', form=form)
+    return render_template('sell_some.html', form=form, bg=session.get('background', '#FFFFFF'))
 
 
 @app.errorhandler(400)
