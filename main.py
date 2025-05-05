@@ -64,7 +64,7 @@ def add_to_basket(item_id):
     if not current_user.is_authenticated:
         return render_template('login.html', bg=session.get('background', '#FFFFFF'))
 
-    response = requests.get(f'http://127.0.0.1:8080/api/items/{item_id}')
+    response = requests.get(f'http://127.0.0.1:10000/api/items/{item_id}')
     if response.status_code != 200:
         return "Товар не найден", 404
 
@@ -120,7 +120,7 @@ def catalog():
 
 @app.route('/catalog/<int:item_id>')
 def item_desc(item_id):
-    response = requests.get(f'http://127.0.0.1:8080/api/items/{item_id}')
+    response = requests.get(f'http://127.0.0.1:10000/api/items/{item_id}')
     if response.status_code != 200:
         return render_template('base.html', message="Товар не найден"), 404
 
