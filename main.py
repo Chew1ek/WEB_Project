@@ -3,15 +3,13 @@ from flask import *
 from flask_restful import *
 from werkzeug.utils import *
 
-from data import db_session
+from data import db_session, user_resources, jobs_api
 from flask_login import *
 from data.users import User
 from data.jobs import Jobs
 from data.login import LoginForm
 from data.job_form_model import ItemForm
 from data.register_form import RegisterForm
-from data import jobs_api
-from data import user_resources
 import requests
 import os
 from sqlalchemy import *
