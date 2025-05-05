@@ -95,7 +95,19 @@ def buy():
 
     db_sess.commit()
     session.pop('basket', None)
-    return redirect('/')
+    return redirect('/catalog')
+
+
+@app.route('/buy_solo/<int:item_id>', methods=['POST'])
+def buy_solo(item_id):
+    if not current_user.is_authenticated:
+        return render_template('base.html')
+    db_sess = db_session.create_session()
+    del_item = db_sess.get(Jobs, item_id)
+    if del_item:
+        db_sess.delete(del_item)
+        db_sess.commit()
+    return redirect(url_for('catalog'))
 
 
 @app.route('/catalog')
@@ -165,7 +177,7 @@ def login():
             return redirect("/")
         return render_template('login.html',
                                message="Неправильный логин или пароль",
-                               form=form)
+                               form=form, bg=session.get('background', '#FFFFFF'))
     return render_template('login.html', title='Авторизация', form=form, bg=session.get('background', '#FFFFFF'))
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -176,11 +188,6 @@ def register():
         user = User()
         db_sess = db_session.create_session()
         user.surname = form.surname.data
-        user.name = form.surname.data
-        user.age = form.age.data
-        user.position = form.position.data
-        user.speciality = form.speciality.data
-        user.address = form.address.data
         user.email = form.email.data
         user.set_password(form.password.data)
         db_sess.add(user)
@@ -215,9 +222,9 @@ def seller():
             image_path=relative_path,
             item_name=form.item_name.data,
             description=form.description.data,
-            seller_name=form.seller_name.data,
+            name_one=current_user.surname,
             price=form.price.data,
-            start_date=datetime.now()
+            start_date=datetime.now(),
         )
         db_sess.add(item)
         db_sess.commit()
