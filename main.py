@@ -243,7 +243,7 @@ def main():
     app.register_blueprint(jobs_api.blueprint)
     api.add_resource(user_resources.UsersResource, '/api/v2/user/<int:user_id>')
     api.add_resource(user_resources.UsersResourceList, '/api/v2/users/')
-    port = int(os.environ.get("PORT", 8080))
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
 
